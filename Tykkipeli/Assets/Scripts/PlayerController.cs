@@ -12,13 +12,6 @@ public class PlayerController : NetworkBehaviour
 
     }
 
-    public override void OnStartLocalPlayer()
-    {
-    // Tähän pitäisi keksiä miten vain toisen pelaajan sprite pyöräytetään ympäri
-
-    }
-
-
 
     void Update()
     {
