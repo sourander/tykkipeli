@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class CannonRotation : MonoBehaviour
+public class CannonRotation : NetworkBehaviour
 {
 
-    public float minRotation;
-    public float maxRotation;
+    public GameObject BulletPrefab;
+    public Transform ShotSpawnTransform;
+    public float projectileSpeed;
+    public float reloadRate = 0.5f;
+    private float nextShotTime;
+
+    // public float minRotation;
+    // public float maxRotation;
 
     // Update is called once per frame
     void Update()
@@ -17,7 +24,7 @@ public class CannonRotation : MonoBehaviour
         float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg; // find the angle in degrees
         transform.rotation = Quaternion.Euler(0f, 0f, rotZ);
 
-        if (rotZ > maxRotation)
+        /* if (rotZ > maxRotation)
         {
             transform.rotation = Quaternion.Euler(0f, 0f, maxRotation);
         }
@@ -25,6 +32,13 @@ public class CannonRotation : MonoBehaviour
         if (rotZ < minRotation)
         {
             transform.rotation = Quaternion.Euler(0f, 0f, minRotation);
+        } */
+
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextShotTime)
+        {
+            nextShotTime = Time.time + reloadRate;
+            var bullet = Instantiate(BulletPrefab, ShotSpawnTransform.position, Quaternion.identity) as GameObject;
+            bullet.GetComponent<Rigidbody2D>().velocity = transform.right * projectileSpeed;
         }
     }
 }
