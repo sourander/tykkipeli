@@ -53,6 +53,7 @@ public class CannonRotation : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextShotTime)
             {
+                nextShotTime = Time.time + reloadRate;
                 CmdFire();
             }
 
@@ -62,10 +63,10 @@ public class CannonRotation : NetworkBehaviour
     [Command]
     void CmdFire()
     {
-        nextShotTime = Time.time + reloadRate;
         var bullet = Instantiate(BulletPrefab, ShotSpawnTransform.position, Quaternion.identity) as GameObject;
         bullet.GetComponent<Rigidbody2D>().velocity = transform.right * projectileSpeed;
 
         NetworkServer.Spawn(bullet);
+        bullet.GetComponent<BulletController>().ownerName = transform.name;
     }
 }
