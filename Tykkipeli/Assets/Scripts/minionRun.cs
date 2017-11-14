@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class minionRun : MonoBehaviour
+public class minionRun : NetworkBehaviour
 {
 
     public Transform[] target;
@@ -9,6 +10,9 @@ public class minionRun : MonoBehaviour
     public float speed = 0.05f;
     public float sight = 3f;
     Animator anim;
+
+    public bool spawnedOnLeft;
+    public string ownerName = "";
 
     // Use this for initialization
     void Start()

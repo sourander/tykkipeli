@@ -7,14 +7,37 @@ public class CannonRotation : NetworkBehaviour
 {
 
     public GameObject BulletPrefab;
+    public GameObject MinionPrefabTEMP; // OBS! HUOM! VÄÄRÄ!
+    GameObject MinionSpawnPoint;
+
     public Transform ShotSpawnTransform;
+
     public float projectileSpeed;
     public float reloadRate = 0.5f;
     private float nextShotTime;
 
+    public bool isOnTheLeftSide;
+
     // public float minRotation;
     // public float maxRotation;
 
+    public override void OnStartLocalPlayer()
+    {
+        if (transform.position.x < -0.1)
+        {
+            isOnTheLeftSide = true;
+            MinionSpawnPoint = GameObject.Find("MinionSpawnPointLeft");
+        }
+        else
+        {
+            isOnTheLeftSide = false;
+            MinionSpawnPoint = GameObject.Find("MinionSpawnPointRight");
+        }
+
+        
+
+
+    }
     
     void Update()
     {
@@ -22,7 +45,7 @@ public class CannonRotation : NetworkBehaviour
         if (isLocalPlayer)
         {
         
-        
+
 
 
             // Template controls START
@@ -57,6 +80,12 @@ public class CannonRotation : NetworkBehaviour
                 CmdFire();
             }
 
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                
+                CmdSpawnMinion();
+            }
+
         }
     }
 
@@ -68,5 +97,16 @@ public class CannonRotation : NetworkBehaviour
 
         NetworkServer.Spawn(bullet);
         bullet.GetComponent<BulletController>().ownerName = transform.name;
+    }
+
+    [Command]
+    void CmdSpawnMinion()
+    {
+        var minion = Instantiate(MinionPrefabTEMP, MinionSpawnPoint.transform.position, Quaternion.identity) as GameObject;
+        // minion.GetComponent<Rigidbody2D>().velocity = transform.right * projectileSpeed;
+
+        NetworkServer.Spawn(minion);
+        minion.GetComponent<minionRun>().ownerName = transform.name;
+        minion.GetComponent<minionRun>().spawnedOnLeft = isOnTheLeftSide;
     }
 }

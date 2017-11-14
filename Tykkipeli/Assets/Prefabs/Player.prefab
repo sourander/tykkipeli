@@ -170,9 +170,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 1242240537814234, guid: 9247908a393062048bace3a54394dff9,
     type: 2}
+  MinionPrefabTEMP: {fileID: 1266861646305652, guid: 5e6c7518eb88a74459cebbb9bfc39ba7,
+    type: 2}
+  MinionSpawnPointLeft: {fileID: 0}
   ShotSpawnTransform: {fileID: 4954243614294358}
   projectileSpeed: 12
   reloadRate: 0.5
+  isOnTheLeftSide: 0
 --- !u!114 &114841156119821420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -235,3 +239,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
