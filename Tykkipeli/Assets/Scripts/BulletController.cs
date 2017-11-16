@@ -21,7 +21,14 @@ public class BulletController : NetworkBehaviour
     {
         Destroy(gameObject);
 
-        if(other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Box")
+        {
+            Destroy(other.gameObject);
+        }
+
+                 
+
+        if (other.gameObject.tag == "Player")
         {
             PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
 
@@ -43,7 +50,10 @@ public class BulletController : NetworkBehaviour
             {
                 minionHealth.TakeDamage(20);
             }
+            
         }
+       
+       
     }
 
     [Command]

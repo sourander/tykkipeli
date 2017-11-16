@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Minion
+  - Curtain
+  - Boundary
+  - Tykinjalus
+  - Static
+  - Box
   layers:
   - Default
   - TransparentFX
@@ -14,7 +19,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - ghfh
   - 
   - 
   - 
@@ -41,4 +46,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 1
+    uniqueID: 2428838365
+    locked: 0
+  - name: 2
+    uniqueID: 1295749545
+    locked: 0
+  - name: 3
+    uniqueID: 1953670577
     locked: 0
