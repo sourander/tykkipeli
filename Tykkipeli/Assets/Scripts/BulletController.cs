@@ -19,14 +19,19 @@ public class BulletController : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+
         Destroy(gameObject);
 
+        //jos bullet osuu boxiin, boxi tuhoutuu
         if (other.gameObject.tag == "Box")
         {
             Destroy(other.gameObject);
         }
 
-                 
+        if (other.gameObject.tag == "Static")
+        {
+            return;
+        }
 
         if (other.gameObject.tag == "Player")
         {
@@ -52,8 +57,9 @@ public class BulletController : NetworkBehaviour
             }
             
         }
-       
-       
+        
+
+
     }
 
     [Command]
