@@ -1,0 +1,9 @@
+muutokset:
+minionissa dragarvo 0 jottei minion kaadu ammuttaessa
+collisionit tykinjalukseen jos tarvii.. mutta ei voi kyllä ampua läpi kunnolla.
+ääniä testailin
+laatikot tuhoutuu jos osuu johonkin, mihin tahansa esineeseen
+laatikoita tippuu koko ajan taivaalta ja niitä voi ampua.
+aiemmat:
+tykki ampuu perunan joka pyörii
+asetin tykit sceneen
