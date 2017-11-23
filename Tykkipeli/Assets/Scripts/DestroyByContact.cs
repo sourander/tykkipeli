@@ -9,7 +9,7 @@ public class DestroyByContact : NetworkBehaviour
     public string resourceName;
 
     [SyncVar]
-    public int bufftype = 1;
+    public int bufftype;
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class DestroyByContact : NetworkBehaviour
         if (resourceName != "")
         {
             sprites = Resources.LoadAll<Sprite>(resourceName);
-            GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
+            GetComponent<SpriteRenderer>().sprite = sprites[bufftype];
         }
     }
 

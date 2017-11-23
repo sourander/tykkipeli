@@ -527,6 +527,7 @@ MonoBehaviour:
   m_SpawnPrefabs:
   - {fileID: 1242240537814234, guid: 9247908a393062048bace3a54394dff9, type: 2}
   - {fileID: 1266861646305652, guid: 5e6c7518eb88a74459cebbb9bfc39ba7, type: 2}
+  - {fileID: 1609741746833590, guid: 69232c40dc11dee44bf445813a834f74, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -1062,6 +1063,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1735229405}
   - component: {fileID: 1735229404}
+  - component: {fileID: 1735229406}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -1099,6 +1101,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1735229406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1735229403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 1
+  m_LocalPlayerAuthority: 0
 --- !u!1 &1879153112
 GameObject:
   m_ObjectHideFlags: 0

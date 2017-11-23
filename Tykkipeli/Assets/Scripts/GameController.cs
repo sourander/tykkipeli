@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class GameController : MonoBehaviour
+public class GameController : NetworkBehaviour
 {
     //spawnaa tässä tapauksessa laatikoita taivaalta, muuttujia voidaan muokata unity editorin puolella
     public GameObject boxes;
@@ -17,6 +18,9 @@ public class GameController : MonoBehaviour
         //aloittaa heti scenen alussa laatikoiden tiputtamisen
         StartCoroutine (SpawnWaves());
     }
+
+
+
     IEnumerator SpawnWaves()
     {
         //aika ennenkuin laatikot alkavat tippua taivaalta
@@ -29,13 +33,16 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < boxCount; i++)
             {
                 //arpoo x:n arvon uudelle instanssille mistä laatikko tippuu vaakasuunnassa, muut arvot kiinteitä
+                // Arpoo myös buffin 1-4
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+                int rndBuff = Random.Range(1, 4);
 
                 //joku kiinteä quaternion arvo, joka ilmeisesti oltava
                 Quaternion spawnRotation = Quaternion.identity;
 
                 // luo laatikon instanssin
-                Instantiate(boxes, spawnPosition, spawnRotation);
+                // Instantiate(boxes, spawnPosition, spawnRotation);
+                CmdSpawnBox(spawnPosition, rndBuff);
 
                 //tämä alustaa arvon jota voidaan muokata unity editorissa, kuinka tiheään laatikot ilmestyvät taivaalle
                 yield return new WaitForSeconds(spawnWait);
@@ -43,5 +50,14 @@ public class GameController : MonoBehaviour
             //aika turha, "laatikkojen tippumiswavejen" väli, joka voidaan pistää nollaksikin
             yield return new WaitForSeconds(waveWait);
         }
+    }
+
+    [Command]
+    void CmdSpawnBox(Vector3 spawnPosition, int rndBuff)
+    {
+        var box = Instantiate(boxes, spawnPosition, Quaternion.identity) as GameObject;
+        box.GetComponent<DestroyByContact>().bufftype = rndBuff;
+
+        NetworkServer.Spawn(box);
     }
 }
