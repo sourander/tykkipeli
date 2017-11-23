@@ -18,6 +18,8 @@ public class CannonRotation : NetworkBehaviour
 
     public bool isOnTheLeftSide;
 
+    int bullettype = 0; // 0 = normal bullet, 1 = buff, 2 = second buff, 3 = third type of buff..
+
     // public float minRotation;
     // public float maxRotation;
 
@@ -87,6 +89,11 @@ public class CannonRotation : NetworkBehaviour
             }
 
         }
+    }
+
+    internal void SetBuff(int bufftype)
+    {
+        bullettype = bufftype;
     }
 
     [Command]

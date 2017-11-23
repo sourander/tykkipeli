@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,8 +13,10 @@ public class PlayerHealth : NetworkBehaviour {
 
     bool isDead = false;
 
-	// Use this for initialization
-	void Start () {
+    
+
+    // Use this for initialization
+    void Start () {
         currentHealth = startingHealth;
 	}
 	
@@ -39,4 +42,6 @@ public class PlayerHealth : NetworkBehaviour {
         isDead = true;
         currentHealth = 0;
     }
+
+
 }

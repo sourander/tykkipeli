@@ -22,9 +22,15 @@ public class BulletController : NetworkBehaviour
 
         Destroy(gameObject);
 
-        //jos bullet osuu boxiin, boxi tuhoutuu
+
         if (other.gameObject.tag == "Box")
         {
+            // Get the 'buff type' the box is carrying
+            DestroyByContact box = other.gameObject.GetComponent<DestroyByContact>();
+            GameObject boxYouCollidedWith = box.gameObject;
+            int buffTypeFromBox = boxYouCollidedWith.GetComponent<DestroyByContact>().bufftype;
+
+            CmdTellServerWhoGetsSpecialBulllet(ownerName, buffTypeFromBox);
             Destroy(other.gameObject);
         }
 
@@ -70,9 +76,13 @@ public class BulletController : NetworkBehaviour
         Debug.Log("Player health: " + obj.GetComponent<PlayerHealth>().currentHealth.ToString() );
     }
 
-    // Update is called once per frame
-    void Update()
+    [Command]
+    void CmdTellServerWhoGetsSpecialBulllet(string ownerName, int bufftype)
     {
-
+        GameObject obj = GameObject.Find(ownerName);
+        obj.GetComponent<CannonRotation>().SetBuff(bufftype);
+        Debug.Log("Player callled '" + ownerName + "' activated a buff #" + bufftype);
     }
+
+
 }

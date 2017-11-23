@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class RandomSprite : MonoBehaviour {
+public class BoxController : NetworkBehaviour {
 
     public Sprite[] sprites;
     public string resourceName;
-    
-    
-	void Start ()
+
+
+
+    void Start()
     {
         //lataa random spriten resourcekansiosta
         if (resourceName != "")
@@ -16,12 +18,12 @@ public class RandomSprite : MonoBehaviour {
             sprites = Resources.LoadAll<Sprite>(resourceName);
             GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
         }
-		
-	}
-	
-	
-	void Update ()
+
+    }
+
+
+    void Update()
     {
-		
-	}
+
+    }
 }
