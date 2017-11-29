@@ -19,6 +19,7 @@ public class CannonRotation : NetworkBehaviour
 
     public bool isOnTheLeftSide;
 
+    [SyncVar]
     public int bullettype; // 0 = normal bullet, 1 = buff, 2 = second buff, 3 = third type of buff..
 
     // public float minRotation;
@@ -83,24 +84,6 @@ public class CannonRotation : NetworkBehaviour
                 CmdSpawnMinion(MinionSpawnPointRight.transform.position);
                 Debug.Log("Bullet type was 1. Thus a minion spawned. IsOnTheLeftSide is: " + isOnTheLeftSide + ". The bullet is now reset to type: " + bullettype);
             }
-
-            
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            bullettype = 0;
-            if (isOnTheLeftSide)
-            {
-                CmdSpawnMinion(MinionSpawnPointLeft.transform.position);
-                Debug.Log("Bullet type was 1. Thus a minion spawned. IsOnTheLeftSide is: " + isOnTheLeftSide + ". The bullet is now reset to type: " + bullettype);
-            }
-            else
-            {
-                CmdSpawnMinion(MinionSpawnPointRight.transform.position);
-                Debug.Log("Bullet type was 1. Thus a minion spawned. IsOnTheLeftSide is: " + isOnTheLeftSide + ". The bullet is now reset to type: " + bullettype);
-            }
-
 
         }
 
