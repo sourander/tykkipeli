@@ -7,6 +7,7 @@ public class BulletController : NetworkBehaviour
 {
 
     public string ownerName;
+    public int thisBulletHasBuffNro;
 
     // Use this for initialization
     void Start()
@@ -56,6 +57,24 @@ public class BulletController : NetworkBehaviour
 
         if (other.gameObject.tag == "Minion")
         {
+            switch (thisBulletHasBuffNro)
+            {
+                case 1:
+                    Debug.Log("A Minion was shot with a " + thisBulletHasBuffNro + "buff bullet");
+                    break;
+                case 2:
+                    Debug.Log("A Minion was shot with a " + thisBulletHasBuffNro + "buff bullet");
+                    break;
+                case 3:
+                    Debug.Log("A Minion was shot with a " + thisBulletHasBuffNro + "buff bullet");
+                    break;
+                case 4:
+                    Debug.Log("A Minion was shot with a " + thisBulletHasBuffNro + "buff bullet");
+                    break;
+                default:
+                    Debug.Log("A Minion was shot with a " + thisBulletHasBuffNro + "buff bullet. This is the default bullet.");
+                    break;
+            }
             MinionHealth minionHealth = other.gameObject.GetComponent<MinionHealth>();
             if(minionHealth != null)
             {

@@ -82,11 +82,14 @@ public class CannonRotation : NetworkBehaviour
                 CmdFire();
             }
 
-            if (Input.GetKeyDown(KeyCode.C))
+            if (bullettype == 1)
             {
-                
+                bullettype = 0;
                 CmdSpawnMinion();
+                Debug.Log("Bullet type was 1. Thus a minion spawned. The bullet is now reset to type: " + bullettype);
             }
+
+        
 
         }
     }
@@ -104,6 +107,9 @@ public class CannonRotation : NetworkBehaviour
 
         NetworkServer.Spawn(bullet);
         bullet.GetComponent<BulletController>().ownerName = transform.name;
+        bullet.GetComponent<BulletController>().thisBulletHasBuffNro = bullettype;
+
+        bullettype = 0;
 
         Debug.Log("You shot a bullet with a buff #" + bullettype);
     }
@@ -112,7 +118,6 @@ public class CannonRotation : NetworkBehaviour
     void CmdSpawnMinion()
     {
         var minion = Instantiate(MinionPrefabTEMP, MinionSpawnPoint.transform.position, Quaternion.identity) as GameObject;
-        // minion.GetComponent<Rigidbody2D>().velocity = transform.right * projectileSpeed;
 
         NetworkServer.Spawn(minion);
         minion.GetComponent<minionRun>().ownerName = transform.name;
