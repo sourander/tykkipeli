@@ -8,6 +8,7 @@ public class BulletController : NetworkBehaviour
 
     public string ownerName;
     public int thisBulletHasBuffNro;
+    int buffTypeFromBox;
 
     // Use this for initialization
     void Start()
@@ -29,7 +30,7 @@ public class BulletController : NetworkBehaviour
             // Get the 'buff type' the box is carrying
             DestroyByContact box = other.gameObject.GetComponent<DestroyByContact>();
             GameObject boxYouCollidedWith = box.gameObject;
-            int buffTypeFromBox = boxYouCollidedWith.GetComponent<DestroyByContact>().bufftype;
+            buffTypeFromBox = boxYouCollidedWith.GetComponent<DestroyByContact>().bufftype;
 
             CmdTellServerWhoGetsSpecialBulllet(ownerName, buffTypeFromBox);
             Destroy(other.gameObject);

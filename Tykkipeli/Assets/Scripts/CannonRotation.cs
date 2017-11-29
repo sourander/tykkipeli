@@ -8,7 +8,8 @@ public class CannonRotation : NetworkBehaviour
 
     public GameObject BulletPrefab;
     public GameObject MinionPrefabTEMP; // OBS! HUOM! VÄÄRÄ!
-    GameObject MinionSpawnPoint;
+    public GameObject MinionSpawnPointLeft;
+    public GameObject MinionSpawnPointRight;
 
     public Transform ShotSpawnTransform;
 
@@ -18,83 +19,95 @@ public class CannonRotation : NetworkBehaviour
 
     public bool isOnTheLeftSide;
 
-    public int bullettype = 0; // 0 = normal bullet, 1 = buff, 2 = second buff, 3 = third type of buff..
+    public int bullettype; // 0 = normal bullet, 1 = buff, 2 = second buff, 3 = third type of buff..
 
     // public float minRotation;
     // public float maxRotation;
 
     public override void OnStartLocalPlayer()
     {
+        MinionSpawnPointLeft = GameObject.Find("MinionSpawnPointLeft");
+        MinionSpawnPointRight = GameObject.Find("MinionSpawnPointRight");
+
         if (transform.position.x < -0.1)
         {
             isOnTheLeftSide = true;
-            MinionSpawnPoint = GameObject.Find("MinionSpawnPointLeft");
         }
-        else
-        {
-            isOnTheLeftSide = false;
-            MinionSpawnPoint = GameObject.Find("MinionSpawnPointRight");
-        }
-
-        
-
-
+        else isOnTheLeftSide = false;
     }
     
     void Update()
     {
         // This is needed for Multiplayer
-        if (isLocalPlayer)
+        if (!isLocalPlayer)
         {
-        
+            return;
+        }
 
 
 
-            // Template controls START
-            // for network testing. REMOVE ->->
-            var x = Input.GetAxis("Horizontal") * Time.deltaTime * 5.0f;
-            var y = Input.GetAxis("Vertical") * Time.deltaTime * 5.0f;
-            transform.Translate(x, 0, 0);
-            transform.Translate(0, y, 0);
-            // Template controls END
-            // 
+        Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        difference.Normalize(); //normalizing the vector. Meaning that all the sum of the vector will be equal to 1.
 
+        float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg; // find the angle in degrees
+        transform.rotation = Quaternion.Euler(0f, 0f, rotZ);
 
-            Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-            difference.Normalize(); //normalizing the vector. Meaning that all the sum of the vector will be equal to 1.
+        /* if (rotZ > maxRotation)
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, maxRotation);
+        }
 
-            float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg; // find the angle in degrees
-            transform.rotation = Quaternion.Euler(0f, 0f, rotZ);
+        if (rotZ < minRotation)
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, minRotation);
+        } */
 
-            /* if (rotZ > maxRotation)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextShotTime)
+        {
+            nextShotTime = Time.time + reloadRate;
+            CmdFire();
+        }
+
+        if (bullettype == 1)
+        {
+            Debug.Log("BULLET TYPE 1 on " + transform.name);
+
+            bullettype = 0;
+            if (isOnTheLeftSide)
             {
-                transform.rotation = Quaternion.Euler(0f, 0f, maxRotation);
+                CmdSpawnMinion(MinionSpawnPointLeft.transform.position);
+                Debug.Log("Bullet type was 1. Thus a minion spawned. IsOnTheLeftSide is: " + isOnTheLeftSide + ". The bullet is now reset to type: " + bullettype);
+            }
+            else
+            {
+                CmdSpawnMinion(MinionSpawnPointRight.transform.position);
+                Debug.Log("Bullet type was 1. Thus a minion spawned. IsOnTheLeftSide is: " + isOnTheLeftSide + ". The bullet is now reset to type: " + bullettype);
             }
 
-            if (rotZ < minRotation)
-            {
-                transform.rotation = Quaternion.Euler(0f, 0f, minRotation);
-            } */
+            
+        }
 
-            if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextShotTime)
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            bullettype = 0;
+            if (isOnTheLeftSide)
             {
-                nextShotTime = Time.time + reloadRate;
-                CmdFire();
+                CmdSpawnMinion(MinionSpawnPointLeft.transform.position);
+                Debug.Log("Bullet type was 1. Thus a minion spawned. IsOnTheLeftSide is: " + isOnTheLeftSide + ". The bullet is now reset to type: " + bullettype);
+            }
+            else
+            {
+                CmdSpawnMinion(MinionSpawnPointRight.transform.position);
+                Debug.Log("Bullet type was 1. Thus a minion spawned. IsOnTheLeftSide is: " + isOnTheLeftSide + ". The bullet is now reset to type: " + bullettype);
             }
 
-            if (bullettype == 1)
-            {
-                bullettype = 0;
-                CmdSpawnMinion();
-                Debug.Log("Bullet type was 1. Thus a minion spawned. The bullet is now reset to type: " + bullettype);
-            }
-
-        
 
         }
+
+
     }
 
-    internal void SetBuff(int bufftype)
+    public void SetBuff(int bufftype)
     {
         bullettype = bufftype;
     }
@@ -103,11 +116,12 @@ public class CannonRotation : NetworkBehaviour
     void CmdFire()
     {
         var bullet = Instantiate(BulletPrefab, ShotSpawnTransform.position, Quaternion.identity) as GameObject;
-        bullet.GetComponent<Rigidbody2D>().velocity = transform.right * projectileSpeed;
 
-        NetworkServer.Spawn(bullet);
+        bullet.GetComponent<Rigidbody2D>().velocity = transform.right * projectileSpeed;
         bullet.GetComponent<BulletController>().ownerName = transform.name;
         bullet.GetComponent<BulletController>().thisBulletHasBuffNro = bullettype;
+
+        NetworkServer.Spawn(bullet);
 
         bullettype = 0;
 
@@ -115,9 +129,10 @@ public class CannonRotation : NetworkBehaviour
     }
 
     [Command]
-    void CmdSpawnMinion()
+    void CmdSpawnMinion(Vector3 position)
     {
-        var minion = Instantiate(MinionPrefabTEMP, MinionSpawnPoint.transform.position, Quaternion.identity) as GameObject;
+
+        var minion = Instantiate(MinionPrefabTEMP, position, Quaternion.identity) as GameObject;
 
         NetworkServer.Spawn(minion);
         minion.GetComponent<minionRun>().ownerName = transform.name;

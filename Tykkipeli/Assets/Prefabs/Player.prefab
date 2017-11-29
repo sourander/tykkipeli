@@ -172,10 +172,13 @@ MonoBehaviour:
     type: 2}
   MinionPrefabTEMP: {fileID: 1266861646305652, guid: 5e6c7518eb88a74459cebbb9bfc39ba7,
     type: 2}
+  MinionSpawnPointLeft: {fileID: 0}
+  MinionSpawnPointRight: {fileID: 0}
   ShotSpawnTransform: {fileID: 4954243614294358}
   projectileSpeed: 12
   reloadRate: 0.5
   isOnTheLeftSide: 0
+  bullettype: 0
 --- !u!114 &114841156119821420
 MonoBehaviour:
   m_ObjectHideFlags: 1
