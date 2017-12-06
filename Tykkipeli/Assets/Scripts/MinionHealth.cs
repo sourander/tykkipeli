@@ -41,5 +41,6 @@ public class MinionHealth : NetworkBehaviour
     {
         isDead = true;
         currentHealth = 0;
+        Destroy(gameObject);
     }
 }

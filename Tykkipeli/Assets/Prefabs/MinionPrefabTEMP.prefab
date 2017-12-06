@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114429048764268168}
   - component: {fileID: 95983438455174792}
   - component: {fileID: 114030060756030824}
+  - component: {fileID: 114639843811617990}
   m_Layer: 0
   m_Name: MinionPrefabTEMP
   m_TagString: Minion
@@ -41,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1266861646305652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -3.29, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -148,7 +149,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1266861646305652}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7c26eb34771f7f4e8937769d52fedb9, type: 3}
   m_Name: 
@@ -158,6 +159,19 @@ MonoBehaviour:
   sight: 3
   spawnedOnLeft: 0
   ownerName: 
+--- !u!114 &114639843811617990
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1266861646305652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dc4d99eb0de17a469f627bbac0f1b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
+  currentHealth: 100
 --- !u!114 &114885270047192884
 MonoBehaviour:
   m_ObjectHideFlags: 1
