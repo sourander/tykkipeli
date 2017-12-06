@@ -15,7 +15,7 @@ public class BulletController : NetworkBehaviour
     {
 
         // Bullet is killed in 2 seconds
-        Destroy(gameObject, 2);
+        Destroy(gameObject, 5);
 
     }
 
