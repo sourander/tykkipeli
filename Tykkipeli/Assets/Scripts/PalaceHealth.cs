@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class MinionHealth : NetworkBehaviour
+public class PalaceHealth : NetworkBehaviour
 {
 
     public float startingHealth = 100;
@@ -11,15 +11,7 @@ public class MinionHealth : NetworkBehaviour
     [SyncVar]
     public float currentHealth = 100;
 
-
-
     bool isDead = false;
-
-    // Use this for initialization
-    void Start()
-    {
-        currentHealth = startingHealth;
-    }
 
     // Update is called once per frame
     void Update()
@@ -28,7 +20,6 @@ public class MinionHealth : NetworkBehaviour
         {
             Death();
         }
-
     }
 
     public void TakeDamage(int amountInInt)
@@ -42,7 +33,6 @@ public class MinionHealth : NetworkBehaviour
             Death();
         }
     }
-
 
     public void Death()
     {

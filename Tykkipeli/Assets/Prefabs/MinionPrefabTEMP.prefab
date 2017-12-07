@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 61133310165536368}
   - component: {fileID: 114429048764268168}
   - component: {fileID: 95983438455174792}
-  - component: {fileID: 114030060756030824}
   - component: {fileID: 114639843811617990}
   m_Layer: 0
   m_Name: MinionPrefabTEMP
@@ -67,7 +66,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &61133310165536368
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -110,18 +109,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114030060756030824
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1266861646305652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abb6feee52e20c843b7470fe295dbb6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 4
 --- !u!114 &114230514466903772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,11 +141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7c26eb34771f7f4e8937769d52fedb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: []
-  speed: 0.05
-  sight: 3
   spawnedOnLeft: 0
   ownerName: 
+  moveSpeed: 1
+  initMoveSpeed: 20
+  damagerate: 20
 --- !u!114 &114639843811617990
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,7 +190,7 @@ MonoBehaviour:
     i14: 155
     i15: 167
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!212 &212667970224725886
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -213,7 +200,6 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -229,7 +215,6 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -247,4 +232,3 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0

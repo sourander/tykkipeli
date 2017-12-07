@@ -5,70 +5,142 @@ using UnityEngine.Networking;
 public class minionRun : NetworkBehaviour
 {
 
-    public Transform[] target;
-    int currentPoint;
-    public float speed = 0.05f;
-    public float sight = 3f;
     Animator anim;
 
+    [SyncVar]
     public bool spawnedOnLeft;
+
+    [SyncVar]
     public string ownerName = "";
+
+    public float moveSpeed;
+    bool touchground = false;
+
+    public float damagerate = 40;
+
+    private bool isAttacking = false;
 
     // Use this for initialization
     void Start()
     {
+
+        if (!spawnedOnLeft)
+        {
+            moveSpeed *= -1;
+        }
+
         anim = GetComponent<Animator>();
-        StartCoroutine("Run");
         anim.SetBool("running", true);
-        Physics2D.queriesStartInColliders = false;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.localScale.x * Vector2.right, sight);
+
+        if (touchground == true)
+        {
+            transform.Translate(new Vector3(moveSpeed, 0, 0) * Time.deltaTime);
+        }
+
+        anim.SetBool("attacking", isAttacking);
+
     }
 
-
-    IEnumerator Run()
+    void OnCollisionEnter2D(Collision2D col)
     {
-        while (true)
+
+        if (col.gameObject.tag == "Boundary")
         {
+            touchground = true;
+        }
 
-            if (transform.position.x == target[currentPoint].position.x)
+
+        //estää törmäämisen toiseen minioniin
+        if (col.gameObject.tag == "Minion")
+        {
+            Debug.Log("A minion collided with another minion");
+            Collider2D thisCollider = GetComponent<Collider2D>();
+
+            // Nimetään collider target uusiksi
+            GameObject theOtherObject = col.gameObject;
+
+            // Ladataan skriptit muuttujiin
+            Collider2D theOtherCollider = theOtherObject.GetComponent<Collider2D>();
+            minionRun runnerScript = theOtherObject.GetComponent<minionRun>();
+
+
+            // Ignore collision while in air
+            if (touchground == false)
             {
-                currentPoint++;
-                anim.SetBool("running", false);
+                Physics2D.IgnoreCollision(thisCollider, theOtherCollider);
             }
 
-
-            if (currentPoint >= target.Length)
+            // Ignore collision on friendly minions
+            if (runnerScript.ownerName == ownerName)
             {
-                currentPoint = 1;
+                Debug.Log("...which is owned by " + ownerName);
+                Physics2D.IgnoreCollision(thisCollider, theOtherCollider);
             }
-
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(target[currentPoint].position.x, transform.position.y), speed);
-
-            yield return null;
 
 
         }
     }
 
-
-    /*void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionStay2D(Collision2D collision)
     {
-        if (other.tag == "Projectile")
-            Destroy(this.gameObject, 0.1f);
+
+        if (collision.gameObject.tag == "Minion")
+        {
+            // Nimetään collider target uusiksi
+            GameObject theOtherObject = collision.gameObject;
+
+            // Ladataan skriptit muuttujiin
+            minionRun runnerScript = theOtherObject.GetComponent<minionRun>();
+            MinionHealth theOtherMinionHealth = theOtherObject.GetComponent<MinionHealth>();
+
+            if (runnerScript.ownerName != ownerName)
+            {
+                isAttacking = true;
+                theOtherMinionHealth.currentHealth = Mathf.Min(theOtherMinionHealth.currentHealth - damagerate * Time.deltaTime, 50.0F);
+                Debug.Log("The other health is:" + theOtherMinionHealth.currentHealth);
+            }
+        }
+
+        if (collision.gameObject.tag == "Palace")
+        {
+            isAttacking = true;
+
+            PalaceHealth palaceHealth = collision.gameObject.GetComponent<PalaceHealth>();
+
+            if (palaceHealth != null)
+            {
+                palaceHealth.currentHealth = Mathf.Min(palaceHealth.currentHealth - damagerate * Time.deltaTime, 150.0F);
+            }
+        }
     }
 
 
-    void OnDrawGizmos()
+    void OnCollisionExit2D(Collision2D collision)
     {
-        Gizmos.color = Color.red;
 
-        Gizmos.DrawLine(transform.position, transform.position + transform.localScale.x * Vector3.right * sight);
+        if (collision.gameObject.tag == "Minion")
+        {
+            // Nimetään collider target uusiksi
+            GameObject theOtherObject = collision.gameObject;
 
-    }*/
+            // Ladataan skriptit muuttujiin
+            minionRun runnerScript = theOtherObject.GetComponent<minionRun>();
+
+            if (runnerScript.ownerName != ownerName)
+            {
+                isAttacking = false;
+            }
+        }
+
+    } 
+
+
+
 
 }

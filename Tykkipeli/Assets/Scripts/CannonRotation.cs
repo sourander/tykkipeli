@@ -53,15 +53,6 @@ public class CannonRotation : NetworkBehaviour
         float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg; // find the angle in degrees
         transform.rotation = Quaternion.Euler(0f, 0f, rotZ);
 
-        /* if (rotZ > maxRotation)
-        {
-            transform.rotation = Quaternion.Euler(0f, 0f, maxRotation);
-        }
-
-        if (rotZ < minRotation)
-        {
-            transform.rotation = Quaternion.Euler(0f, 0f, minRotation);
-        } */
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextShotTime)
         {
@@ -69,20 +60,17 @@ public class CannonRotation : NetworkBehaviour
             CmdFire();
         }
 
-        if (bullettype == 1)
+        if (bullettype == 1 || Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log("BULLET TYPE 1 on " + transform.name);
-
+            
             bullettype = 0;
             if (isOnTheLeftSide)
             {
                 CmdSpawnMinion(MinionSpawnPointLeft.transform.position);
-                Debug.Log("Bullet type was 1. Thus a minion spawned. IsOnTheLeftSide is: " + isOnTheLeftSide + ". The bullet is now reset to type: " + bullettype);
             }
             else
             {
                 CmdSpawnMinion(MinionSpawnPointRight.transform.position);
-                Debug.Log("Bullet type was 1. Thus a minion spawned. IsOnTheLeftSide is: " + isOnTheLeftSide + ". The bullet is now reset to type: " + bullettype);
             }
 
         }
@@ -106,9 +94,9 @@ public class CannonRotation : NetworkBehaviour
 
         NetworkServer.Spawn(bullet);
 
+        Debug.Log("You shot a bullet with a buff #" + bullettype);
         bullettype = 0;
 
-        Debug.Log("You shot a bullet with a buff #" + bullettype);
     }
 
     [Command]
