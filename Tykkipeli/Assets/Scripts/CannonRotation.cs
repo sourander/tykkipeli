@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class CannonRotation : NetworkBehaviour
 {
+    Animator anim;
 
     public GameObject BulletPrefab;
     public GameObject MinionPrefabTEMP; // OBS! HUOM! VÄÄRÄ!
@@ -22,13 +23,25 @@ public class CannonRotation : NetworkBehaviour
     [SyncVar]
     public int bullettype; // 0 = normal bullet, 1 = buff, 2 = second buff, 3 = third type of buff..
 
+    [SyncVar]
+    public bool hasJustShotABullet;
+
     // public float minRotation;
     // public float maxRotation;
+
+
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+      
+    }
 
     public override void OnStartLocalPlayer()
     {
         MinionSpawnPointLeft = GameObject.Find("MinionSpawnPointLeft");
         MinionSpawnPointRight = GameObject.Find("MinionSpawnPointRight");
+
+        hasJustShotABullet = false;
 
         if (transform.position.x < -0.1)
         {
@@ -40,6 +53,13 @@ public class CannonRotation : NetworkBehaviour
     void Update()
     {
         // This is needed for Multiplayer
+        if (hasJustShotABullet)
+        {
+            PlayAnimation();
+            hasJustShotABullet = false;
+        }
+
+
         if (!isLocalPlayer)
         {
             return;
@@ -78,6 +98,11 @@ public class CannonRotation : NetworkBehaviour
 
     }
 
+    void PlayAnimation()
+    {
+        anim.Play("CannonShooting");
+    }
+
     public void SetBuff(int bufftype)
     {
         bullettype = bufftype;
@@ -87,6 +112,8 @@ public class CannonRotation : NetworkBehaviour
     void CmdFire()
     {
         var bullet = Instantiate(BulletPrefab, ShotSpawnTransform.position, Quaternion.identity) as GameObject;
+
+        hasJustShotABullet = true;
 
         bullet.GetComponent<Rigidbody2D>().velocity = transform.right * projectileSpeed;
         bullet.GetComponent<BulletController>().ownerName = transform.name;
