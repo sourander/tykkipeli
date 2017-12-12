@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 3eadf0825b591a446ad9537a2142aad8
-timeCreated: 1511383101
+guid: bbb540a595fae8a42bff7937f9fea7e0
+timeCreated: 1513112735
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: boxes_sprites_0
-    21300002: boxes_sprites_1
-    21300004: boxes_sprites_2
-    21300006: boxes_sprites_3
+    21300000: box_sprites_0
+    21300002: box_sprites_1
+    21300004: box_sprites_2
+    21300006: box_sprites_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -82,58 +82,58 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: boxes_sprites_0
+      name: box_sprites_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 55
         y: 0
-        width: 225
-        height: 225
+        width: 278
+        height: 479
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 1, y: 0, z: 1, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: boxes_sprites_1
+      name: box_sprites_1
       rect:
         serializedVersion: 2
-        x: 225
+        x: 421
         y: 0
-        width: 225
-        height: 225
+        width: 278
+        height: 479
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 1, y: 0, z: 1, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: boxes_sprites_2
+      name: box_sprites_2
       rect:
         serializedVersion: 2
-        x: 450
+        x: 786
         y: 0
-        width: 225
-        height: 225
+        width: 278
+        height: 479
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 1, y: 0, z: 1, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: boxes_sprites_3
+      name: box_sprites_3
       rect:
         serializedVersion: 2
-        x: 675
+        x: 1155
         y: 0
-        width: 225
-        height: 225
+        width: 278
+        height: 479
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 1, y: 0, z: 1, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
