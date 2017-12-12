@@ -77,7 +77,8 @@ public class CannonRotation : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextShotTime)
         {
             nextShotTime = Time.time + reloadRate;
-            CmdFire();
+            hasJustShotABullet = true;
+            StartCoroutine(ShootWithDelay());
         }
 
         if (bullettype == 1 || Input.GetKeyDown(KeyCode.C))
@@ -101,7 +102,6 @@ public class CannonRotation : NetworkBehaviour
     void PlayAnimation()
     {
         anim.Play("CannonShooting");
-
     }
 
     public void SetBuff(int bufftype)
@@ -109,12 +109,19 @@ public class CannonRotation : NetworkBehaviour
         bullettype = bufftype;
     }
 
+    IEnumerator ShootWithDelay()
+    {
+        print(Time.time);
+        yield return new WaitForSeconds(0.45f);
+        CmdFire();
+    }
+
     [Command]
     void CmdFire()
     {
         var bullet = Instantiate(BulletPrefab, ShotSpawnTransform.position, Quaternion.identity) as GameObject;
 
-        hasJustShotABullet = true;
+        
 
         bullet.GetComponent<Rigidbody2D>().velocity = transform.right * projectileSpeed;
         bullet.GetComponent<BulletController>().ownerName = transform.name;
