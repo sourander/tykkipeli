@@ -14,6 +14,8 @@ public class BulletController : NetworkBehaviour
 
     public AudioClip[] soundClips;
     // 0 = Cannon leaving barrel
+    // TODO: 1 = Bullet hitting an object and exploding
+    // TODO: 2 = 'Ouch', bullet hits a minion
 
     // Use this for initialization
     void Start()
