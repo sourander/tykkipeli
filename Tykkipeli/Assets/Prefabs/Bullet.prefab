@@ -218,6 +218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownerName: 
   thisBulletHasBuffNro: 0
+  ParticleFXGenerator: {fileID: 1440506098614326, guid: 0b993602bbb601a4aade1f4dc6764387,
+    type: 2}
 --- !u!114 &114679795440170610
 MonoBehaviour:
   m_ObjectHideFlags: 1

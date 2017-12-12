@@ -10,20 +10,19 @@ public class BulletController : NetworkBehaviour
     public int thisBulletHasBuffNro;
     int buffTypeFromBox;
 
+    public GameObject ParticleFXGenerator;
+
     // Use this for initialization
     void Start()
     {
-
-        // Bullet is killed in 2 seconds
+        // Bullet is killed in n seconds
         Destroy(gameObject, 5);
-
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
 
         Destroy(gameObject);
-
 
         if (other.gameObject.tag == "Box")
         {
@@ -33,6 +32,7 @@ public class BulletController : NetworkBehaviour
             buffTypeFromBox = boxYouCollidedWith.GetComponent<DestroyByContact>().bufftype;
 
             CmdTellServerWhoGetsSpecialBulllet(ownerName, buffTypeFromBox);
+            CmdSpawnParticleFX(boxYouCollidedWith.transform.position, "BoxExplotion");
             Destroy(other.gameObject);
         }
 
@@ -102,6 +102,17 @@ public class BulletController : NetworkBehaviour
         GameObject obj = GameObject.Find(ownerName);
         obj.GetComponent<CannonRotation>().SetBuff(bufftype);
         Debug.Log("Player callled '" + ownerName + "' activated a buff #" + bufftype);
+    }
+
+
+    [Command]
+    void CmdSpawnParticleFX(Vector3 position, string nameOfTheAnimator)
+    {
+        var particle = Instantiate(ParticleFXGenerator, position, Quaternion.identity) as GameObject;
+
+        NetworkServer.Spawn(particle);
+        particle.GetComponent<ParticleSpawned>().nameOfTheAnimator = nameOfTheAnimator;
+
     }
 
 
