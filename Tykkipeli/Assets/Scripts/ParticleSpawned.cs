@@ -13,10 +13,9 @@ public class ParticleSpawned : NetworkBehaviour {
     void Start () {
         anim = GetComponent<Animator>();
 
- 
-        Debug.Log("A particle spawner wants to play an animation called" + nameOfTheAnimator);
         anim.Play(nameOfTheAnimator);
-        Destroy(gameObject, 3);
+
+        Destroy(gameObject, 2);
     }
 	
 	// Update is called once per frame

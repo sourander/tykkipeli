@@ -45,6 +45,9 @@ public class BulletController : NetworkBehaviour
         {
             PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
 
+            GameObject theThingYouCollidedWith = other.gameObject;
+            CmdSpawnParticleFX(theThingYouCollidedWith.transform.position, "Explotion");
+
             if (playerHealth != null)
             {
                 GameObject player = playerHealth.gameObject;
@@ -81,12 +84,26 @@ public class BulletController : NetworkBehaviour
             {
                 minionHealth.TakeDamage(20);
             }
-            
+
+            GameObject min = other.gameObject;
+            Vector3 position = new Vector3(min.transform.position.x, min.transform.position.y);
+            CmdSpawnParticleFX(position, "AirExplotion");
+
         }
-        
+
+        // Activate Explotion if the bullet hits the ground
+        if (other.gameObject.tag == "Boundary")
+        {
+            // GameObject min = other.gameObject;
+            // Vector3 position = new Vector3(min.transform.position.x, min.transform.position.y + 1);
+            CmdSpawnParticleFX(transform.position, "Explotion");
+
+        }
 
 
     }
+
+
 
     [Command]
     void CmdTellServerWhoGotShot(string uniqueID, int damage)
@@ -112,6 +129,13 @@ public class BulletController : NetworkBehaviour
 
         NetworkServer.Spawn(particle);
         particle.GetComponent<ParticleSpawned>().nameOfTheAnimator = nameOfTheAnimator;
+
+        if (nameOfTheAnimator == "BoxExplotion")
+        {
+            var particle2 = Instantiate(ParticleFXGenerator, position, Quaternion.identity) as GameObject;
+            particle2.GetComponent<ParticleSpawned>().nameOfTheAnimator = "AirExplotion";
+            NetworkServer.Spawn(particle2);
+        }
 
     }
 

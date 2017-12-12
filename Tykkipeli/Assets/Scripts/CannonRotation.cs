@@ -101,6 +101,7 @@ public class CannonRotation : NetworkBehaviour
     void PlayAnimation()
     {
         anim.Play("CannonShooting");
+
     }
 
     public void SetBuff(int bufftype)
