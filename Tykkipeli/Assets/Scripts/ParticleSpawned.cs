@@ -19,5 +19,9 @@ public class ParticleSpawned : NetworkBehaviour {
         Destroy(gameObject, 2);
     }
 	
-}
+	// Update is called once per frame
+	void Update () {
 
+    }
+
+}
