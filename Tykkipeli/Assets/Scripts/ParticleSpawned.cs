@@ -7,6 +7,7 @@ public class ParticleSpawned : NetworkBehaviour {
 
     Animator anim;
 
+    [SyncVar]
     public string nameOfTheAnimator;
 
     // Use this for initialization
