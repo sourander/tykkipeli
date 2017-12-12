@@ -38,6 +38,9 @@ public class minionRun : NetworkBehaviour
     void Update()
     {
 
+        if (!isServer)
+            return;
+
         if (touchground == true)
         {
             transform.Translate(new Vector3(moveSpeed, 0, 0) * Time.deltaTime);

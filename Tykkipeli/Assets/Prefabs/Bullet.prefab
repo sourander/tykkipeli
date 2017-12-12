@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114520583077816884}
   - component: {fileID: 114679795440170610}
   - component: {fileID: 114564570679905624}
-  - component: {fileID: 82615980096935624}
+  - component: {fileID: 82680399332030934}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -82,7 +82,7 @@ CircleCollider2D:
   m_Offset: {x: -0.13, y: 0}
   serializedVersion: 2
   m_Radius: 0.15
---- !u!82 &82615980096935624
+--- !u!82 &82680399332030934
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -91,7 +91,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 254ef0338d0cdca4fa905a47774c5fe3, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -220,6 +220,8 @@ MonoBehaviour:
   thisBulletHasBuffNro: 0
   ParticleFXGenerator: {fileID: 1440506098614326, guid: 0b993602bbb601a4aade1f4dc6764387,
     type: 2}
+  soundClips:
+  - {fileID: 8300000, guid: 254ef0338d0cdca4fa905a47774c5fe3, type: 3}
 --- !u!114 &114679795440170610
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -12,10 +12,16 @@ public class BulletController : NetworkBehaviour
 
     public GameObject ParticleFXGenerator;
 
+    public AudioClip[] soundClips;
+    // 0 = Cannon leaving barrel
+
     // Use this for initialization
     void Start()
     {
-        // Bullet is killed in n seconds
+        // Play Sound
+        AudioSource.PlayClipAtPoint(soundClips[0], new Vector3(0, 0, 0));
+
+        // Bullet is killed in 5 seconds. For safety. Bombs are dangerous.
         Destroy(gameObject, 5);
     }
 
