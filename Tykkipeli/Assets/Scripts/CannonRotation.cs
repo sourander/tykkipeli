@@ -21,13 +21,11 @@ public class CannonRotation : NetworkBehaviour
     public bool isOnTheLeftSide;
 
     [SyncVar]
-    public int bullettype; // 0 = normal bullet, 1 = buff, 2 = second buff, 3 = third type of buff..
+    public int bullettype; // 0 = normal bullet, 1 = buff, 2 = Thunder Cloud, 3 = Oil Drop
 
     [SyncVar]
     public bool hasJustShotABullet;
 
-    // public float minRotation;
-    // public float maxRotation;
 
 
     void Start()

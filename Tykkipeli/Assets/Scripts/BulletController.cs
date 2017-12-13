@@ -40,21 +40,17 @@ public class BulletController : NetworkBehaviour
             buffTypeFromBox = boxYouCollidedWith.GetComponent<DestroyByContact>().bufftype;
 
             CmdTellServerWhoGetsSpecialBulllet(ownerName, buffTypeFromBox);
-            CmdSpawnParticleFX(boxYouCollidedWith.transform.position, "BoxExplotion");
+            CmdSpawnParticleFX(boxYouCollidedWith.transform.position, "BoxExplotion", other.gameObject.tag, thisBulletHasBuffNro);
             Destroy(other.gameObject);
         }
 
-        if (other.gameObject.tag == "Static")
-        {
-            return;
-        }
 
         if (other.gameObject.tag == "Player")
         {
             PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
 
             GameObject theThingYouCollidedWith = other.gameObject;
-            CmdSpawnParticleFX(theThingYouCollidedWith.transform.position, "Explotion");
+            CmdSpawnParticleFX(theThingYouCollidedWith.transform.position, "Explotion", other.gameObject.tag, thisBulletHasBuffNro);
 
             if (playerHealth != null)
             {
@@ -95,17 +91,20 @@ public class BulletController : NetworkBehaviour
 
             GameObject min = other.gameObject;
             Vector3 position = new Vector3(min.transform.position.x, min.transform.position.y);
-            CmdSpawnParticleFX(position, "AirExplotion");
+            CmdSpawnParticleFX(position, "AirExplotion", other.gameObject.tag, thisBulletHasBuffNro);
 
         }
 
         // Activate Explotion if the bullet hits the ground
         if (other.gameObject.tag == "Boundary")
         {
-            // GameObject min = other.gameObject;
-            // Vector3 position = new Vector3(min.transform.position.x, min.transform.position.y + 1);
-            CmdSpawnParticleFX(transform.position, "Explotion");
+            CmdSpawnParticleFX(transform.position, "Explotion", other.gameObject.tag, thisBulletHasBuffNro);
+        }
 
+        // Activate Explotion if the bullet hits the ground
+        if (other.gameObject.tag == "Palace")
+        {
+            CmdSpawnParticleFX(transform.position, "AirExplotion", other.gameObject.tag, thisBulletHasBuffNro);
         }
 
 
@@ -131,18 +130,40 @@ public class BulletController : NetworkBehaviour
 
 
     [Command]
-    void CmdSpawnParticleFX(Vector3 position, string nameOfTheAnimator)
+    void CmdSpawnParticleFX(Vector3 position, string nameOfTheAnimator, string theTagOfTheOtherCollider, int theBulletHasBuff)
     {
+        if (theBulletHasBuff != 3)
+        {
         var particle = Instantiate(ParticleFXGenerator, position, Quaternion.identity) as GameObject;
 
         NetworkServer.Spawn(particle);
         particle.GetComponent<ParticleSpawned>().nameOfTheAnimator = nameOfTheAnimator;
-
+        }
         if (nameOfTheAnimator == "BoxExplotion")
         {
             var particle2 = Instantiate(ParticleFXGenerator, position, Quaternion.identity) as GameObject;
             particle2.GetComponent<ParticleSpawned>().nameOfTheAnimator = "AirExplotion";
             NetworkServer.Spawn(particle2);
+        }
+
+        if (theTagOfTheOtherCollider == "Minion" || theTagOfTheOtherCollider == "Boundary")
+        {
+            if (theBulletHasBuff == 2)
+            {
+                var particle2 = Instantiate(ParticleFXGenerator, position, Quaternion.identity) as GameObject;
+                particle2.GetComponent<ParticleSpawned>().nameOfTheAnimator = "ThunderCloud";
+                NetworkServer.Spawn(particle2);
+            }
+            else if (theBulletHasBuff == 3)
+            {
+                if(theTagOfTheOtherCollider == "Minion")
+                {
+                    position = new Vector3(position.x, position.y - 0.3f);
+                }
+                var particle2 = Instantiate(ParticleFXGenerator, position, Quaternion.identity) as GameObject;
+                particle2.GetComponent<ParticleSpawned>().nameOfTheAnimator = "OilDrop";
+                NetworkServer.Spawn(particle2);
+            }
         }
 
     }
