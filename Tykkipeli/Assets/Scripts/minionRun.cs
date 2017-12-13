@@ -23,7 +23,6 @@ public class minionRun : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-
         if (!spawnedOnLeft)
         {
             moveSpeed *= -1;
@@ -31,15 +30,12 @@ public class minionRun : NetworkBehaviour
 
         anim = GetComponent<Animator>();
         anim.SetBool("running", true);
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (!isServer)
-            return;
 
         if (touchground == true)
         {
@@ -141,7 +137,7 @@ public class minionRun : NetworkBehaviour
             }
         }
 
-    } 
+    }
 
 
 

@@ -11,6 +11,9 @@ public class CannonRotation : NetworkBehaviour
     public GameObject MinionPrefabTEMP; // OBS! HUOM! VÄÄRÄ!
     public GameObject MinionSpawnPointLeft;
     public GameObject MinionSpawnPointRight;
+    private GameObject startScreen;
+    public GameObject theGameController;
+    public GameController gameControllerScript;
 
     public Transform ShotSpawnTransform;
 
@@ -18,6 +21,7 @@ public class CannonRotation : NetworkBehaviour
     public float reloadRate = 0.5f;
     private float nextShotTime;
 
+    private bool hasPressedReadyCheck = false;
     public bool isOnTheLeftSide;
 
     [SyncVar]
@@ -27,11 +31,13 @@ public class CannonRotation : NetworkBehaviour
     public bool hasJustShotABullet;
 
 
-
     void Start()
     {
         anim = GetComponent<Animator>();
-      
+
+        // Locate startround(.png)
+        // Locate the GameController object and class
+        startScreen = GameObject.Find("startround");
     }
 
     public override void OnStartLocalPlayer()
@@ -46,6 +52,10 @@ public class CannonRotation : NetworkBehaviour
             isOnTheLeftSide = true;
         }
         else isOnTheLeftSide = false;
+
+        startScreen.SetActive(true);
+
+
     }
     
     void Update()
@@ -63,10 +73,18 @@ public class CannonRotation : NetworkBehaviour
             return;
         }
 
+        // If a player presses 'A', hide the start and tell the game controller that you are ready
+        if (Input.GetKeyDown(KeyCode.A) && !hasPressedReadyCheck)
+        {
+            hasPressedReadyCheck = true;
+            startScreen.SetActive(false);
+            CmdIncreaseReadyPlayerCount();
+        }
+
 
 
         Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        difference.Normalize(); //normalizing the vector. Meaning that all the sum of the vector will be equal to 1.
+        difference.Normalize(); //normalizing the vector.
 
         float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg; // find the angle in degrees
         transform.rotation = Quaternion.Euler(0f, 0f, rotZ);
@@ -142,4 +160,13 @@ public class CannonRotation : NetworkBehaviour
         minion.GetComponent<minionRun>().ownerName = transform.name;
         minion.GetComponent<minionRun>().spawnedOnLeft = isOnTheLeftSide;
     }
+
+    [Command]
+    void CmdIncreaseReadyPlayerCount()
+    {
+        theGameController = GameObject.Find("GameController");
+        GameController gameControllerScript = theGameController.GetComponent<GameController>();
+        gameControllerScript.IncreaseReadyCount(1);
+    }
+
 }

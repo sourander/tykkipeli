@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -13,12 +14,33 @@ public class GameController : NetworkBehaviour
     public float startWait;
     public float waveWait;
 
+    private bool CoroutineIsPlaying = false;
+
+    public int readyPlayerCount;
+
+
     void Start()
     {
-        //aloittaa heti scenen alussa laatikoiden tiputtamisen
-        StartCoroutine (SpawnWaves());
+
     }
 
+    void Update()
+    {
+        if (!isServer) return;
+
+        if (readyPlayerCount >= 2 && !CoroutineIsPlaying)
+        {
+            CoroutineIsPlaying = true;
+            StartCoroutine(SpawnWaves());
+        }
+        
+    }
+
+    public void IncreaseReadyCount(int v)
+    {
+        Debug.Log("Increasing ReadyCount with 1");
+        readyPlayerCount += v;
+    }
 
 
     IEnumerator SpawnWaves()
@@ -34,8 +56,8 @@ public class GameController : NetworkBehaviour
             {
                 //arpoo x:n arvon uudelle instanssille mistä laatikko tippuu vaakasuunnassa, muut arvot kiinteitä
                 // Arpoo myös buffin 1-4
-                Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-                int rndBuff = Random.Range(1, 4);
+                Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+                int rndBuff = UnityEngine.Random.Range(1, 4);
 
                 //joku kiinteä quaternion arvo, joka ilmeisesti oltava
                 Quaternion spawnRotation = Quaternion.identity;
